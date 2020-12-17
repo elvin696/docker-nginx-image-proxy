@@ -1,0 +1,22 @@
+#!/bin/bash
+
+export TERM=xterm
+
+# save environment variables for use later in cron, if required
+env > /root/env.txt
+
+if [ ! -f /etc/nginx/cdn.conf ]; then
+	echo "[i] running for the 1st time"
+    rsync --update -raz /app-start/* /app
+fi
+
+mkdir -p /tmp/nginx/cache
+chown -R www-data:nginx /tmp/nginx
+
+if [ -f /etc/nginx/nginx.new ]; then
+   mv /etc/nginx/nginx.conf /etc/nginx/nginx.old
+   mv /etc/nginx/nginx.new /etc/nginx/nginx.conf
+fi
+
+echo "*** Running /root/bin/my-startup.sh..."
+bash /root/bin/my-startup.sh

@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+    app:
+        image: niiknow/nginx-image-proxy
+        restart: always
+        container_name: nginx-image-proxy
+        ports:
+            - '80:80'
+            - '443:443'
